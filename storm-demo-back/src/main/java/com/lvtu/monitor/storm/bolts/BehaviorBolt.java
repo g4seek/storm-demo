@@ -19,7 +19,7 @@ import com.lvtu.monitor.utils.DbHelper;
 public class BehaviorBolt extends BaseBasicBolt {
 
 	private static final long serialVersionUID = 4236885687387212731L;
-	
+
 	private Log logger = LogFactory.getLog(BehaviorSpout.class);
 
 	@Override
