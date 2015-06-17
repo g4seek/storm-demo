@@ -34,14 +34,15 @@ public class BehaviorSpout extends BaseRichSpout {
 
 		HttpsqsClient client = HttpsqsClientWrapper.getClient();
 		String behaviorStr = null;
+		
 		try {
 			behaviorStr = client.getString("storm-demo");
 		} catch (HttpsqsException e) {
 			try {
 				Thread.sleep(10000L);
-				return;
-			} catch (InterruptedException e1) {
+			} catch (InterruptedException e2) {
 			}
+			return;
 		}
 
 		String[] behaviorArr = behaviorStr.replace("\n", "").split(",");

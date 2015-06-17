@@ -7,7 +7,7 @@
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>storm-demo</name>
+	<name>storm-demo-back</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -24,9 +24,31 @@
 
 	<!--构建项目 -->
 	<build>
-		<finalName>storm-demo</finalName>
+		<finalName>storm-demo-back</finalName>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<configuration>
+						<descriptorRefs>
+							<descriptorRef>jar-with-dependencies</descriptorRef>
+						</descriptorRefs>
+						<archive>
+							<manifest>
+								<mainClass>com.lvtu.monitor.MainRoutine</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
+					<executions>
+						<execution>
+							<id>make-assembly</id>
+							<phase>package</phase>
+							<goals>
+								<goal>assembly</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -44,9 +66,9 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
-				<excludes>
-					<exclude>*.properties</exclude>
-				</excludes>
+				<!-- <excludes> -->
+				<!-- <exclude>*.properties</exclude> -->
+				<!-- </excludes> -->
 			</resource>
 			<resource>
 				<directory>src/main/java</directory>
