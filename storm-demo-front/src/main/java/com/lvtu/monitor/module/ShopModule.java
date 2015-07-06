@@ -84,7 +84,7 @@ public class ShopModule {
 	@Ok("redirect:/?msg=${obj}")
 	public String operate(HttpServletRequest req, String opType, int goodsId) {
 
-		// TODO 优化rediredt,链接中不加参数
+		// TODO 优化redirect,链接中不加参数
 		int customerId = this.getCustomerId(req);
 		Behavior behavior = new Behavior();
 		behavior.setCustomerId(customerId);

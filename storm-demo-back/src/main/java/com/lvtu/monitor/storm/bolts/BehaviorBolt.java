@@ -26,9 +26,9 @@ public class BehaviorBolt extends BaseBasicBolt {
 	public void execute(Tuple tuple, BasicOutputCollector collector) {
 		Dao dao = DbHelper.getDao();
 
+		// 读取上个节点提交的数据
 		Object obj = tuple.getValueByField("ugcData");
 		UgcData data = (UgcData) obj;
-		data.getOperation();
 		int customerId = data.getCustomerId();
 
 		for (String tag : data.getGoodsTags()) {
@@ -38,10 +38,12 @@ public class BehaviorBolt extends BaseBasicBolt {
 							"=", tag));
 			int addWeight = this.getOperationWeight(data.getOperation());
 			if (tagWeight != null) {
+				// 修改用户标签关系的权重值
 				tagWeight.setWeight(tagWeight.getWeight() + addWeight);
 				logger.info("update tagWeight [" + tagWeight.getTagName() + "]");
 				dao.update(tagWeight);
 			} else {
+				// 新增用户标签权重关系
 				tagWeight = new CustomerTagWeight();
 				tagWeight.setCustomerId(customerId);
 				tagWeight.setTagName(tag);
@@ -65,6 +67,7 @@ public class BehaviorBolt extends BaseBasicBolt {
 
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
+		// 定义输出数据的属性名称
 		declarer.declare(new Fields("ugcData"));
 	}
 

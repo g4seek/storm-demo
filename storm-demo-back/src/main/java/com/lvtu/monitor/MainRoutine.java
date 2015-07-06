@@ -14,10 +14,12 @@ public class MainRoutine {
 		InitHelper.init();
 		BehaviorTopology topology = new BehaviorTopology();
 		if (args.length == 0) {
+			// 以本地模式运行
 			LocalCluster cluster = new LocalCluster();
 			cluster.submitTopology(topology.getName(), topology.getConfig(),
 					topology.getTopology());
 		} else {
+			// 提交到storm集群运行
 			StormSubmitter.submitTopology(topology.getName(),
 					topology.getConfig(), topology.getTopology());
 		}

@@ -40,9 +40,11 @@ public class BehaviorSpout extends BaseRichSpout {
 		String behaviorStr = null;
 		
 		try {
+			// 从httpsqs队列中读取数据,格式--customerId,opType,goodsId
 			behaviorStr = client.getString("storm-demo");
 		} catch (HttpsqsException e) {
 			try {
+				// 队列中无数据,休眠10s
 				Thread.sleep(10000L);
 			} catch (InterruptedException e2) {
 			}
@@ -56,6 +58,7 @@ public class BehaviorSpout extends BaseRichSpout {
 
 		Goods goods = dao.fetch(Goods.class, goodsId);
 
+		// 组装tuple数据对象
 		UgcData data = new UgcData();
 		data.setCustomerId(customerId);
 		data.setOperation(opType);
@@ -65,6 +68,7 @@ public class BehaviorSpout extends BaseRichSpout {
 
 		logger.info("emit ugcdata..." + data.toString());
 
+		// 提交给topology中后面的节点
 		collector.emit(new Values(data));
 	}
 
@@ -77,17 +81,8 @@ public class BehaviorSpout extends BaseRichSpout {
 
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
+		// 定义输出数据的属性
 		declarer.declare(new Fields("ugcData"));
-	}
-	
-	@Override
-	public void ack(Object msgId) {
-		logger.info("ack");
-	}
-	
-	@Override
-	public void fail(Object msgId) {
-		logger.info("fail");
 	}
 	
 	private HttpsqsClient getHttpsqsClient() {
